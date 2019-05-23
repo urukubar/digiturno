@@ -1,0 +1,15 @@
+@import url(https://fonts.googleapis.com/css?family=Nunito);
+
+.navbar-brand{
+
+}
+.img-responsive {
+  width: 5%;
+  display: inline-block;
+   font-size: 18px;
+  line-height: 20px;
+}
+.navbar-expand-md .navbar-nav .nav-link {
+    padding-right: 2.5rem;
+    padding-left:   2.5rem;
+}
