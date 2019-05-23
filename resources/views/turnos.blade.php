@@ -1,8 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    @foreach($llamados as $llamado)
+      <div class="">
+        
+        <h1>{{$llamado->idcliente}}</h1>
 
-@section('content')
-@foreach($llamados as $llamado)
-<h1>{{$llamado->idcliente}}</h1>
+      </div>
 
 
-@endforeach
-@endsection
+
+
+    @endsection
+  </body>
+</html>

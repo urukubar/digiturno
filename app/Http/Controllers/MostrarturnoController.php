@@ -13,10 +13,11 @@ class MostrarturnoController extends Controller
     public function index($id)
     {
 
-      $llamados=\DB::table('cliente')
-      ->where('cliente.idcliente',$id)
+      $llamados=\DB::table('clientes')
+      ->where('clientes.idcliente',$id)
       ->get();
       return view('turnos',compact('llamados'));
+      // dd($llamados);
     }
 
 }
