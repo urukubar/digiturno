@@ -22,9 +22,9 @@
                 </div>
                 <div class="form-group">
                   <label for="exampleFormControlSelect1">Tramite</label>
-                  <select class="form-control" id="exampleFormControlSelect1" name="idservicio">
+                  <select class="form-control" id="exampleFormControlSelect1" name="idtramite">
                     @foreach($tramites as $tramite)
-                      <option value="{{$tramite->idservicio}}">{{$tramite->nombre}}</option>
+                      <option value="{{$tramite->idtramite}}">{{$tramite->nombre}}</option>
                     @endforeach
                   </select>
                 </div>

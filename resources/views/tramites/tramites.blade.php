@@ -19,12 +19,12 @@
   <tbody>
   @foreach($servicios as $servicio)
   <tr>
-    <th scope="row">{{$servicio->idservicio}}</th>
+    <th scope="row">{{$servicio->idtramite}}</th>
     <td>{{$servicio->nombre}}</td>
     <td>
-      <a href="{{url('/tramites/'.$servicio->idservicio.'/edit')}}" >Editar |</a>
+      <a href="{{url('/tramites/'.$servicio->idtramite.'/edit')}}" >Editar |</a>
 
-      <form class="" action="{{ url('/tramites/'.$servicio->idservicio)}}" method="post">
+      <form class="" action="{{ url('/tramites/'.$servicio->idtramite)}}" method="post">
         {{csrf_field()}}
         {{method_field('DELETE')}}
         <button type="submit" onclick="return confirm('¿desea borrar este usuario?')" >Eliminar</button>

@@ -7,12 +7,12 @@
         <div class="card-header">{{ __('Editar Tramite') }}</div>
           <div class="card-body">
             @foreach($servicios as $servicio)
-              <form class="" action="{{url('/tramites/'.$servicio->idservicio)}}" method="post">
+              <form class="" action="{{url('/tramites/'.$servicio->idtramite)}}" method="post">
                 {{csrf_field()}}
                 {{method_field('PATCH')}}
                 <div class="form-group">
                   <label for="exampleInputEmail1">ID Servicio: </label>
-                  <label for="exampleInputEmail1">{{$servicio->idservicio}}</label>
+                  <label for="exampleInputEmail1">{{$servicio->idtramite}}</label>
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Nombre</label>

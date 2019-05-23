@@ -66,7 +66,7 @@
                             <label class="col-md-4 col-form-label text-md-right">{{ __('Tramite') }}</label>
 
                             <div class="col-md-6">
-                                <select class="form-control" id="exampleFormControlSelect1" name="idservicio">
+                                <select class="form-control" id="exampleFormControlSelect1" name="idtramite">
                                   @foreach($tramites as $tramite)
                                     <option value="{{$tramite->idtramite}}">{{$tramite->nombre}}</option>
                                   @endforeach

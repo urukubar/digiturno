@@ -34,7 +34,7 @@ class TramiteController extends Controller
     {
       $datos=request()->except(['_token','_method']);
       \DB::table('tramites')
-      ->where('tramites',$id)
+      ->where('tramites.idtramite',$id)
       ->update($datos);
 
       return redirect('tramites/tramites');
@@ -44,7 +44,7 @@ class TramiteController extends Controller
     {
       $servicios=\DB::table('tramites')
       ->get();
-      return view('tramites.tramites',compact('tramites'));
+      return view('tramites.tramites',compact('servicios'));
     }
 
     public function destroy($id)
@@ -61,7 +61,7 @@ class TramiteController extends Controller
       \DB::table('tramites')->insert([
         'nombre'=>$request['tramite']
       ]);
-      return response()->json($datos);
+        return redirect('tramites/tramites');
 
     }
 

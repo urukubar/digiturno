@@ -41,12 +41,11 @@ class UsuariosController extends Controller
       \DB::table('users')->where('id',$id)->update($datos);
 
       $usuarios=\DB::table('users')
-      ->where('users.id',$id)
       ->get();
 
       $tramites=\DB::table('tramites')->get();
 
-      return view('usuarios.edit',compact('usuarios','tramites'));
+      return view('usuarios.usuarios',compact('usuarios','tramites'));
     }
     public function show()
     {
