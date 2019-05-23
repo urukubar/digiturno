@@ -45,6 +45,11 @@
         </a>
       </li>
       </ul>
+      {{-- @if (Route::has('register'))
+          <li class="nav-item">
+              <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+          </li>
+      @endif  --}}
 
     @else
       @if (Auth::user()->idtipo_usuario==1)

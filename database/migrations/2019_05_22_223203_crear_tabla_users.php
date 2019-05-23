@@ -22,10 +22,11 @@ class CrearTablaUsers extends Migration
             $table->string('password');
             $table->integer('idtramite')->unsigned();
             $table->integer('idtipo_usuario')->unsigned();
-            $table->foreign('idtramite')->references('idtramite')->on('tramites');
-            $table->foreign('idtipo_usuario')->references('idtipo_usuario')->on('tipo_usuario');
             $table->rememberToken();
             $table->timestamps();
+            //llaves foraneas
+            $table->foreign('idtramite')->references('idtramite')->on('tramites');
+            $table->foreign('idtipo_usuario')->references('idtipo_usuario')->on('tipo_usuario');
         });
     }
 
