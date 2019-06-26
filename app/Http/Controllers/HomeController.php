@@ -64,7 +64,8 @@ class HomeController extends Controller
       ->distinct()
       ->first();
       $turnos=\DB::table('clientes')
-      ->select('idcliente','turno','identificacion','estado')
+      ->select('idcliente','turno','identificacion','estado','estado_turno.nombre')
+      ->join('estado_turno','clientes.estado','=','estado_turno.idestado')
       ->where('clientes.created_at',$minimos->minimo)
       ->where('clientes.idtramite',$usuario->idtramite)
       ->first();
@@ -85,7 +86,8 @@ class HomeController extends Controller
     protected function cambioestado($cliente)
     {
       $turnos=\DB::table('clientes')
-      ->select ('idcliente','estado','turno')
+      ->select ('idcliente','estado','turno','estado_turno.nombre')
+      ->join('estado_turno','clientes.estado','=','estado_turno.idestado')
       ->where('clientes.idcliente',$cliente)
       ->first();
       // dd($estado);
@@ -115,6 +117,11 @@ class HomeController extends Controller
         ->update(['estado'=>3]);
         return view('turnos',compact('conteo','servicios','turnos'));
       }
+      $turnos=\DB::table('clientes')
+      ->select ('idcliente','estado','turno','estado_turno.nombre')
+      ->join('estado_turno','clientes.estado','=','estado_turno.idestado')
+      ->where('clientes.idcliente',$cliente)
+      ->first();
 
 
     }

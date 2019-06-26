@@ -17,7 +17,7 @@
             <h3>Taquilla</h3>
             <input type="text" name="" value="">
             <h3>Estado</h3>
-            <input type="text" name="" value="">
+            <input type="text" name="" value="{{$turnos->nombre}}">
             <h3>Turno</h3>
             <input type="text" name="" value="{{$turnos->turno}}">
 
