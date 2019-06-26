@@ -19,9 +19,11 @@ class CrearTablaClientes extends Migration
             $table->integer('identificacion');
             $table->integer('idtramite')->unsigned();
             $table->integer('turno');
+            $table->integer('estado');
             $table->timestamps();
             //llaves foraneas
             $table->foreign('idtramite')->references('idtramite')->on('tramites');
+            $table->foreign('estado')->references('idestado')->on('estado_turno');
         });
     }
 

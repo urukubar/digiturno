@@ -10,14 +10,19 @@ class MostrarturnoController extends Controller
 
 
 
-    public function index($id)
+    public function index()
     {
-
-      $llamados=\DB::table('clientes')
-      ->where('clientes.idcliente',$id)
+      $usuario=Auth()->user();
+      $minimo=\DB::table('clientes')
+      ->select (\DB::raw('min(created_at) as minimo'))
+      ->where('clientes.idtramite',$usuario->idtramite)
       ->get();
-      return view('turnos',compact('llamados'));
-      // dd($llamados);
+      // $turno=\DB::table('clientes')
+      // ->select('turno','identificacion')
+      // ->where('clientes.created_at',$minimo)
+      // ->get();
+
+      return view('home',compact('minimo'));
     }
 
 }
