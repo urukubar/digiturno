@@ -29,9 +29,13 @@
 
   				<!-- SIDEBAR BUTTONS -->
   				<div class="profile-userbuttons">
-            <a href="{{route('turnos')}}" class="btn btn-success btn-sm">Siguiente</a>
-            <a href="{{route('turnos2',$turnos->idcliente)}}" class="btn btn-danger btn-sm">Atender</a>
-  					{{-- <button type="button" class="btn btn-danger btn-sm">Atender</button> --}}
+            <a href="{{route('turnos')}}" class="btn btn-warning btn-lg btn-block">Siguiente</a>
+            <a href="{{route('turnos2',$turnos->idcliente)}}" class="btn btn-success btn-lg btn-block">Atender</a>
+            <a href="#" class="btn btn-primary btn-lg btn-block">Transferir</a>
+            <a href="#" class="btn btn-danger btn-lg btn-block">Evaluacion</a>
+            <br>
+            <a href="#" class="btn btn-success btn-sm">Llamar</a>
+            <a href="#" class="btn btn-info btn-sm">Posponer</a>
   				</div>
   				<!-- END SIDEBAR BUTTONS -->
 
@@ -39,21 +43,22 @@
   		</div>
   		<div class="col-md-7">
               <div class="profile-content">
+                <h2>Informe Adicional Acerca De los Turnos</h2>
                 <table class="table table-xs">
                   <thead>
                     <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Tramite</th>
-                      <th scope="col">Cantidad</th>
+                      <th scope="col">Tipo De Tramite</th>
+                      <th scope="col">turnos en cola</th>
+                      <th scope="col">Taquillas Disponibles</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
 
                       @foreach($servicios as $servicio)
-                      <th scope="row"></th>
-                      <td>{{$servicio->nombre}}</td>
+                      <th scope="row">{{$servicio->nombre}}</th>
                       <td>{{$conteo->conteo}}</td>
+                      <td></td>
                       @endforeach
                     </tr>
                   </tbody>

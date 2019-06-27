@@ -37,14 +37,10 @@ class UsuariosController extends Controller
     public function update(Request $request,$id)
     {
       $datos=request()->except(['_token','_method']);
-
       \DB::table('users')->where('id',$id)->update($datos);
-
       $usuarios=\DB::table('users')
       ->get();
-
       $tramites=\DB::table('tramites')->get();
-
       return view('usuarios.usuarios',compact('usuarios','tramites'));
     }
     public function show()

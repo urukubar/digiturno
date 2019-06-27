@@ -27,13 +27,18 @@ Route::get('/register', function() {
 
 // Route::get('/usuarios', 'UsuariosController@index')->name('usuarios');
 Route::resource('usuarios','UsuariosController');
-Route::get('/turnos','HomeController@siguienteturno')->name('turnos');
-Route::get('/turnos/{id}','HomeController@cambioestado')->name('turnos2');
+Route::PATCH('/taquilla/{id}', 'HomeController@newtaquilla')->name('taquilla');
+
+Route::get('/turnos','MostrarturnoController@index')->name('turnos');
+Route::get('/turnos/llamando','MostrarturnoController@siguienteturno')->name('llamado');
+Route::get('/turnos/{id}','MostrarturnoController@cambioestado')->name('turnos2');
+
 Route::resource('tramites','TramiteController');
 Route::get('/createtramite',function(){
     return view('/tramites/create');
 })->name('createtramite');
 
-Route::get('/usuarios/password',function(){
-  return view('/usuarios/password');
+Route::get('/password',function(){
+  $usuario=$usuario=Auth()->user();
+  return view('usuarios.password',compact('usuario'));
 })->name('password');
