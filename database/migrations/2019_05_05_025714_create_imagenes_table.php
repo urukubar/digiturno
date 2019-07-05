@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CrearTablaTipoUsuario extends Migration
+class CreateImagenesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CrearTablaTipoUsuario extends Migration
      */
     public function up()
     {
-        Schema::create('tipo_usuario', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->Increments('idtipo_usuario');
-            $table->string('nombre');
+        Schema::create('imagenes', function (Blueprint $table) {
+            // $table->engine = "InnoDB";
+            $table->Increments('id');
             $table->timestamps();
+
+            $table->String('nombre_Imagen');
+            $table->String('url');
         });
     }
 
@@ -28,6 +30,6 @@ class CrearTablaTipoUsuario extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tipo_usuario');
+        Schema::dropIfExists('imagenes');
     }
 }

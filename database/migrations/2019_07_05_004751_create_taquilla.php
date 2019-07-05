@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CrearTablaTramites extends Migration
+class CreateTaquilla extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CrearTablaTramites extends Migration
      */
     public function up()
     {
-        Schema::create('tramites', function (Blueprint $table) {
-
-            $table->engine = 'InnoDB';
-            $table->Increments('idtramite');
-            $table->string('nombre');
+        Schema::create('taquilla', function (Blueprint $table) {
+            $table->Increments('num_taquilla');
+            $table->integer('idusuario')->unsigned();
             $table->timestamps();
+
+            $table->foreign('idusuario') -> references ('id') -> on ('users');
         });
     }
 
@@ -29,6 +29,6 @@ class CrearTablaTramites extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tramites');
+        Schema::dropIfExists('taquilla');
     }
 }

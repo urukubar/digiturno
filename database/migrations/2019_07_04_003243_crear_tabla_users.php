@@ -14,18 +14,15 @@ class CrearTablaUsers extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
+            // $table->engine = 'InnoDB';
             $table->Increments('id');
             $table->string('name');
-            $table->string('email',60)->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->string('email');
             $table->string('password');
-            $table->integer('idtramite')->unsigned();
+
             $table->integer('idtipo_usuario')->unsigned();
-            $table->rememberToken();
             $table->timestamps();
             //llaves foraneas
-            $table->foreign('idtramite')->references('idtramite')->on('tramites');
             $table->foreign('idtipo_usuario')->references('idtipo_usuario')->on('tipo_usuario');
         });
     }

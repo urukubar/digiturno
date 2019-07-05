@@ -15,7 +15,7 @@
   					<h3>Usuario: </h3>
             <input type="text" name="" value="{{ Auth::user()->name }}" >
             <h3>Taquilla</h3>
-            <input type="text" name="" value="{{ Auth::user()->taquilla }}">
+            <input type="text" name="" value="Taquilla {{$tramites->num_taquilla}}">
             <h3>Estado</h3>
             <input type="text" name="" value="">
             <h3>Turno</h3>
@@ -55,11 +55,11 @@
                   <tbody>
                     <tr>
 
-                      @foreach($servicios as $servicio)
-                      <th scope="row">{{$servicio->nombre}}</th>
-                      <td>{{$conteo->conteo}}</td>
+                      {{-- @foreach($tramites as $tramite) --}}
+                      <th scope="row">{{$tramites->Descripcion}}</th>
+                      <td scope="row">{{$conteo->conteo}}</td>
                       <td></td>
-                      @endforeach
+                      {{-- @endforeach --}}
                     </tr>
                   </tbody>
                 </table>

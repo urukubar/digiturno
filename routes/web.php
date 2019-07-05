@@ -21,13 +21,16 @@ Route::get('/home', 'HomeController@index')->name('home');
 // Route::get('/turno', 'MostrarturnoController@index')->name('turno');
 Route::get('/register', function() {
 
-      $tramites=\DB::table('tramites')->get();
+      $tramites=\DB::table('taquilla')->where('idusuario',null)->get();
       return view('/auth/register',compact('tramites'));
 })->name('register');
 
 // Route::get('/usuarios', 'UsuariosController@index')->name('usuarios');
 Route::resource('usuarios','UsuariosController');
-Route::PATCH('/taquilla/{id}', 'HomeController@newtaquilla')->name('taquilla');
+Route::resource('taquillas','TaquillaController');
+Route::get('/createtaquilla',function(){
+    return view('taquillas.create');
+})->name('createtaquilla');
 
 Route::get('/turnos','MostrarturnoController@index')->name('turnos');
 Route::get('/turnos/llamando','MostrarturnoController@siguienteturno')->name('llamado');

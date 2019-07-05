@@ -15,11 +15,11 @@
   					<h3>Usuario: </h3>
             <input type="text" name="" value="{{ Auth::user()->name }}" >
             <h3>Taquilla</h3>
-            <input type="text" name="" value="">
+            <input type="text" name="" value="Taquilla {{$tramites->num_taquilla}}">
             <h3>Estado</h3>
-            <input type="text" name="" value="{{$turnos->nombre}}">
+            <input type="text" name="" value="{{$turnos->nombre_estado}}">
             <h3>Turno</h3>
-            <input type="text" name="" value="{{$turnos->turno}}">
+            <input type="text" name="" value="{{$turnos->Num_Turno}} ">
 
             <br>
             <br>
@@ -29,8 +29,8 @@
 
   				<!-- SIDEBAR BUTTONS -->
   				<div class="profile-userbuttons">
-            <a href="{{route('turnos')}}" class="btn btn-warning btn-lg btn-block">Siguiente</a>
-            <a href="{{route('turnos2',$turnos->idcliente)}}" class="btn btn-success btn-lg btn-block">Atender</a>
+            <a href="{{route('llamado')}}" class="btn btn-warning btn-lg btn-block">Siguiente</a>
+            <a href="{{route('turnos2',$turnos->id)}}" class="btn btn-success btn-lg btn-block">Atender</a>
             <a href="#" class="btn btn-primary btn-lg btn-block">Transferir</a>
             <a href="#" class="btn btn-danger btn-lg btn-block">Evaluacion</a>
             <br>
@@ -55,11 +55,11 @@
                   <tbody>
                     <tr>
 
-                      @foreach($servicios as $servicio)
-                      <th scope="row">{{$servicio->nombre}}</th>
-                      <td>{{$conteo->conteo}}</td>
-                      <td></td>
-                      @endforeach
+                      {{-- @foreach($servicios as $servicio) --}}
+                        <th scope="row">{{$tramites->Descripcion}}</th>
+                        <td scope="row">{{$conteo->conteo}}</td>
+                        <td></td>
+                      {{-- @endforeach --}}
                     </tr>
                   </tbody>
                 </table>

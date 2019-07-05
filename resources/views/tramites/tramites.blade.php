@@ -13,18 +13,20 @@
     <tr>
       <th scope="col">#</th>
       <th scope="col">Nombre</th>
+      <th scope="col">Letra Tramite</th>
       <th scope="col">Acciones</th>
     </tr>
   </thead>
   <tbody>
   @foreach($servicios as $servicio)
   <tr>
-    <th scope="row">{{$servicio->idtramite}}</th>
-    <td>{{$servicio->nombre}}</td>
+    <th scope="row">{{$servicio->id_tipo_tramite}}</th>
+    <td>{{$servicio->Descripcion}}</td>
+    <td>{{$servicio->Letra}}</td>
     <td>
-      <a href="{{url('/tramites/'.$servicio->idtramite.'/edit')}}" >Editar |</a>
+      <a href="{{url('/tramites/'.$servicio->id_tipo_tramite.'/edit')}}" >Editar |</a>
 
-      <form class="" action="{{ url('/tramites/'.$servicio->idtramite)}}" method="post">
+      <form class="" action="{{ url('/tramites/'.$servicio->id_tipo_tramite)}}" method="post">
         {{csrf_field()}}
         {{method_field('DELETE')}}
         <button type="submit" onclick="return confirm('¿desea borrar este usuario?')" >Eliminar</button>

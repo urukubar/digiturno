@@ -63,12 +63,12 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-4 col-form-label text-md-right">{{ __('Tramite') }}</label>
+                            <label class="col-md-4 col-form-label text-md-right">{{ __('Taquilla') }}</label>
 
                             <div class="col-md-6">
-                                <select class="form-control" id="exampleFormControlSelect1" name="idtramite">
+                                <select class="form-control" id="exampleFormControlSelect1" name="num_taquilla">
                                   @foreach($tramites as $tramite)
-                                    <option value="{{$tramite->idtramite}}">{{$tramite->nombre}}</option>
+                                    <option value="{{$tramite->num_taquilla}}">Taquilla {{$tramite->num_taquilla}}</option>
                                   @endforeach
                                 </select>
                             </div>

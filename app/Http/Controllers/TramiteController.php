@@ -16,7 +16,7 @@ class TramiteController extends Controller
 
     public function index()
     {
-      $servicios=\DB::table('tramites')
+      $servicios=\DB::table('tipo_tramites')
       ->get();
       return view('tramites.tramites',compact('servicios'));
     }
@@ -24,8 +24,8 @@ class TramiteController extends Controller
 
     public function edit($id)
     {
-      $servicios=\DB::table('tramites')
-      ->where('tramites.idtramite',$id)
+      $servicios=\DB::table('tipo_tramites')
+      ->where('tipo_tramites.id_tipo_tramite',$id)
       ->get();
       return view('tramites.edit',compact('servicios'));
 
@@ -33,8 +33,8 @@ class TramiteController extends Controller
     public  function update(Request $request,$id )
     {
       $datos=request()->except(['_token','_method']);
-      \DB::table('tramites')
-      ->where('tramites.idtramite',$id)
+      \DB::table('tipo_tramites')
+      ->where('tipo_tramites.id_tipo_tramite',$id)
       ->update($datos);
 
       return redirect('tramites/tramites');
@@ -42,15 +42,15 @@ class TramiteController extends Controller
     }
     public function show()
     {
-      $servicios=\DB::table('tramites')
+      $servicios=\DB::table('tipo_tramites')
       ->get();
       return view('tramites.tramites',compact('servicios'));
     }
 
     public function destroy($id)
     {
-      $servicio=\DB::table('tramites')
-      ->where('tramites.idtramite',$id)
+      $servicio=\DB::table('tipo_tramites')
+      ->where('tipo_tramites.id_tipo_tramite',$id)
       ->delete();
       return redirect('tramites');
     }
@@ -58,8 +58,10 @@ class TramiteController extends Controller
     public function store(Request $request){
       // $datos=request()->all();
       $datos=request()->except('_token');
-      \DB::table('tramites')->insert([
-        'nombre'=>$request['tramite']
+      \DB::table('tipo_tramites')
+      ->insert([
+        'Descripcion'=>$request['Descripcion'],
+        'Letra'=>$request['Letra']
       ]);
         return redirect('tramites/tramites');
 

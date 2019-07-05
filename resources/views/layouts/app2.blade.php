@@ -45,11 +45,11 @@
         </a>
       </li>
       </ul>
-      {{-- @if (Route::has('register'))
+      @if (Route::has('register'))
           <li class="nav-item">
               <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
           </li>
-      @endif  --}}
+      @endif
 
     @else
       @if (Auth::user()->idtipo_usuario==1)
@@ -61,6 +61,7 @@
               <div class="dropdown-menu dropdown-menu-" aria-labelledby="navbarDropdown">
                 <a  class="dropdown-item" href="{{ url('/usuarios') }}">{{ __('Usuarios') }}</a>
                 <a class="dropdown-item" href="{{url('/tramites')}}" >{{ __('Tramites') }}</a>
+                <a class="dropdown-item" href="{{url('/taquillas')}}" >{{ __('Taquillas') }}</a>
               </div>
           </li>
           </ul>
