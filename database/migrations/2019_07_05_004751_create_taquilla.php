@@ -15,10 +15,8 @@ class CreateTaquilla extends Migration
     {
         Schema::create('taquilla', function (Blueprint $table) {
             $table->Increments('num_taquilla');
-            $table->integer('idusuario')->unsigned();
             $table->timestamps();
 
-            $table->foreign('idusuario') -> references ('id') -> on ('users');
         });
     }
 

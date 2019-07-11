@@ -30,7 +30,8 @@ class HomeController extends Controller
     public function newtaquilla(Request $request,$id)
     {
       $datos=request()->except(['_token','_method']);
-      \DB::table('users')->where('id',$id)->update($datos);
+      \DB::table('taquilla')->where('idusuario',$id)->update(['idusuario'=>null]);
+      \DB::table('taquilla')->where('num_taquilla',$request->taquilla)->update(['idusuario'=>$id]);
       return redirect('/turnos');
     }
 

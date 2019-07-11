@@ -17,11 +17,13 @@ class CreateAsignacion extends Migration
             $table->Increments('idasignacion');
             $table->Integer('num_taquilla')->unsigned();
             $table->Integer('id_tipo_tramite')->unsigned();
+            $table->Integer('id_user')->unsigned();
+
             $table->timestamps();
 
             $table->foreign('num_taquilla') -> references ('num_taquilla') -> on ('taquilla');
             $table->foreign('id_tipo_tramite') -> references ('id_tipo_tramite') -> on ('tipo_tramites');
-
+            $table->foreign('id_user') -> references ('id') -> on ('users');
         });
     }
 

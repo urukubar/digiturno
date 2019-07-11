@@ -18,20 +18,22 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-// Route::get('/turno', 'MostrarturnoController@index')->name('turno');
-Route::get('/register', function() {
+Route::post('/cambiotaquilla/{id}','HomeController@newtaquilla')->name('cambiotaquilla');
 
+//ruta de registro nuevo usuario
+Route::get('/register', function() {
       $tramites=\DB::table('taquilla')->where('idusuario',null)->get();
       return view('/auth/register',compact('tramites'));
 })->name('register');
 
-// Route::get('/usuarios', 'UsuariosController@index')->name('usuarios');
+//rutas de los usuarios
 Route::resource('usuarios','UsuariosController');
+//rutas de las taquillas
 Route::resource('taquillas','TaquillaController');
 Route::get('/createtaquilla',function(){
     return view('taquillas.create');
 })->name('createtaquilla');
-
+//ruta de los turnos
 Route::get('/turnos','MostrarturnoController@index')->name('turnos');
 Route::get('/turnos/llamando','MostrarturnoController@siguienteturno')->name('llamado');
 Route::get('/turnos/{id}','MostrarturnoController@cambioestado')->name('turnos2');

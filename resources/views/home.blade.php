@@ -7,9 +7,9 @@
       <div class="card">
         <div class="card-header">{{ __('Bienvenido '.$usuario->name)}}</div>
           <div class="card-body">
-            <form class="" action="{{url('/taquilla/'.$usuario->id)}}" method="post">
+            <form class="" action="{{url('/cambiotaquilla/'.$usuario->id)}}" method="post">
               {{csrf_field()}}
-              {{method_field('PATCH')}}
+              {{-- {{method_field('PATCH')}} --}}
                 <div class="form-group">
                   <label for="exampleInputEmail1">Ingerese la Taquilla actual</label>
                   <input type="text" name="taquilla" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Numero De Taquilla" value="">
