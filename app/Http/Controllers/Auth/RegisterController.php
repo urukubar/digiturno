@@ -63,14 +63,14 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-      $id=\DB::table('users')->max('id');
+      // $id=\DB::table('users')->max('id');
           User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             // 'idtramite'=>$data['idtramite']
         ]);
-        \DB::table('taquilla')->where('num_taquilla',$data['num_taquilla'])->update(['idusuario'=>$id+1]);
+        // \DB::table('taquilla')->where('num_taquilla',$data['num_taquilla'])->update(['idusuario'=>$id+1]);
 
     }
 }

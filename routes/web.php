@@ -22,7 +22,8 @@ Route::post('/cambiotaquilla/{id}','HomeController@newtaquilla')->name('cambiota
 
 //ruta de registro nuevo usuario
 Route::get('/register', function() {
-      $tramites=\DB::table('taquilla')->where('idusuario',null)->get();
+      $tramites=\DB::table('taquilla')->get();
+
       return view('/auth/register',compact('tramites'));
 })->name('register');
 
@@ -31,12 +32,19 @@ Route::resource('usuarios','UsuariosController');
 //rutas de las taquillas
 Route::resource('taquillas','TaquillaController');
 Route::get('/createtaquilla',function(){
-    return view('taquillas.create');
+        $usuarios=\DB::table('users')->get();
+        $tramites=\DB::table('tipo_tramites')->get();
+    return view('taquillas.create',compact('usuarios','tramites'));
 })->name('createtaquilla');
 //ruta de los turnos
 Route::get('/turnos','MostrarturnoController@index')->name('turnos');
 Route::get('/turnos/llamando','MostrarturnoController@siguienteturno')->name('llamado');
-Route::get('/turnos/{id}','MostrarturnoController@cambioestado')->name('turnos2');
+Route::get('/turnos/{id}/{idt}','MostrarturnoController@cambioestado')->name('turnos2');
+Route::get('/posponer/{id}/{idt}','MostrarturnoController@posponer')->name('turnos3');
+Route::get('/transferir/{id}','MostrarturnoController@transferir')->name('trasnferir');
+Route::post('/cambiotramite/{id}','MostrarturnoController@cambiotramite')->name('cambiotramite');
+Route::get('/evaluacion/{id}','MostrarturnoController@evaluacion')->name('evaluacion');
+Route::post('/envioevaluacion/{id}','MostrarturnoController@agregarevaluacion')->name('envio');
 
 Route::resource('tramites','TramiteController');
 Route::get('/createtramite',function(){

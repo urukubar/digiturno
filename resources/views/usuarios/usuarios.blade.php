@@ -14,8 +14,6 @@
       <th scope="col">#</th>
       <th scope="col">Nombre</th>
       <th scope="col">E-mail</th>
-      <th scope="col">Taquilla</th>
-      <th scope="col">Tramites</th>
       <th scope="col">Acciones</th>
 
     </tr>
@@ -26,8 +24,6 @@
       <th scope="row">{{$usuario->id}}</th>
       <td>{{$usuario->name}}</td>
       <td>{{$usuario->email}}</td>
-      <td>{{$usuario->num_taquilla}}</td>
-      <td>{{$usuario->Descripcion}}</td>
       {{-- <td>{{$usuario->idtramite}}</td> --}}
       <td>
         <a href="{{url('/usuarios/'.$usuario->id.'/edit')}}">Editar |</a>

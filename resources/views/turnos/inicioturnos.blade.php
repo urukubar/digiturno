@@ -15,7 +15,7 @@
   					<h3>Usuario: </h3>
             <input type="text" name="" value="{{ Auth::user()->name }}" >
             <h3>Taquilla</h3>
-            <input type="text" name="" value="Taquilla {{$tramites->num_taquilla}}">
+            <input type="text" name="" value="Taquilla {{$tramites->idtaquilla}}">
             <h3>Estado</h3>
             <input type="text" name="" value="">
             <h3>Turno</h3>
@@ -35,7 +35,7 @@
             <a href="#" class="btn btn-danger btn-lg btn-block">Evaluacion</a>
             <br>
             <a href="#" class="btn btn-success btn-sm">Llamar</a>
-            <a href="#" class="btn btn-info btn-sm">Posponer</a>
+            <a href="#" class="btn btn-info btn-sm">Abandono</a>
   				</div>
   				<!-- END SIDEBAR BUTTONS -->
 

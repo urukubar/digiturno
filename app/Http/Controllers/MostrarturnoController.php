@@ -17,16 +17,18 @@ class MostrarturnoController extends Controller
     //buscamos el tramite que pretenece al usuario iniciado
       $usuario=Auth()->user();
       $tramites=\DB::table('asignacion')
-      ->select('asignacion.id_tipo_tramite','tipo_tramites.Descripcion','taquilla.num_taquilla')
-      ->join('taquilla','taquilla.num_taquilla','=','asignacion.num_taquilla')
-      ->join('tipo_tramites','tipo_tramites.id_tipo_tramite','=','asignacion.id_tipo_tramite')
-      ->join('users','users.id','=','taquilla.idusuario')
+      ->select('tramites_taquilla.idtramite','asignacion.idtaquilla','tipo_tramites.Descripcion')
+      ->join('users','users.id','=','asignacion.iduser')
+      ->join('taquilla','taquilla.num_taquilla','=','asignacion.idtaquilla')
+      ->join('tramites_taquilla','tramites_taquilla.idtaquilla','=','taquilla.num_taquilla')
+      ->join('tipo_tramites','tipo_tramites.id_tipo_tramite','=','tramites_taquilla.idtramite')
       ->where('users.id',$usuario->id)
       ->first();
       //hacemos un conteo de los turnos en espera
       $conteo=\DB::table('turno_usuarios')
-      ->where('turno_usuarios.id_tipotramite',$tramites->id_tipo_tramite)
+      ->where('turno_usuarios.id_tipotramite',$tramites->idtramite)
       ->where('turno_usuarios.id_estado_turno',1)
+      // ->orwhere('turno_usuarios.id_estado_turno',2)
       ->select (\DB::raw('count(*) as conteo'))
       ->first();
       // dd($tramites);
@@ -34,109 +36,179 @@ class MostrarturnoController extends Controller
         return view('turnos/inicioturnos',compact('tramites','conteo'));
 
     }
-    public function siguienteturno()
+    protected function mostrardatos($turno)
     {
-      $usuario=Auth()->user();
-      $tramites=\DB::table('asignacion')
-      ->select('asignacion.id_tipo_tramite','tipo_tramites.Descripcion','taquilla.num_taquilla')
-      ->join('taquilla','taquilla.num_taquilla','=','asignacion.num_taquilla')
-      ->join('tipo_tramites','tipo_tramites.id_tipo_tramite','=','asignacion.id_tipo_tramite')
-      ->join('users','users.id','=','taquilla.idusuario')
-      ->where('users.id',$usuario->id)
-      ->first();
-      $conteo=\DB::table('turno_usuarios')
-      ->where('turno_usuarios.id_tipotramite',$tramites->id_tipo_tramite)
-      ->where('turno_usuarios.id_estado_turno',1)
-      ->select (\DB::raw('count(*) as conteo'))
-      ->first();
-      //buscamos el turno mas pronto a atender
-      $minimos=\DB::table('turno_usuarios')
-      ->select (\DB::raw('min(created_at) as minimo'))
-      ->where('turno_usuarios.id_tipotramite',$tramites->id_tipo_tramite)
-      ->where('turno_usuarios.id_estado_turno',1)
-      ->distinct()
-      ->first();
-//tomamos los datos del turno
+      $estado=\DB::table('turno_usuarios')
+      ->where('turno_usuarios.id',$turno)
+      ->update(['id_estado_turno'=>2]);
+
       $turnos=\DB::table('turno_usuarios')
       ->select('turno_usuarios.id','turno_usuarios.Num_Turno','estado_turno.nombre_estado')
       ->join('estado_turno','estado_turno.idestado_turno','=','turno_usuarios.id_estado_turno')
-      ->where('turno_usuarios.created_at',$minimos->minimo)
-      ->where('turno_usuarios.id_tipotramite',$tramites->id_tipo_tramite)
+      ->where('turno_usuarios.id',$turno)
       ->first();
-
-      $cliente=$turnos->id;
-
-      $this->cambioestado($cliente);
-
-      // \DB::table('clientes')
-      // ->where('clientes.created_at',$minimos->minimo)
-      // ->where('clientes.estado',1)
-      // ->update(['estado'=>2]);
-
-
-      return view('turnos/turnos',compact('tramites','conteo','turnos'));
-      // dd($estado);
-    }
-
-    protected function cambioestado($cliente)
-    {
-      $turnos=\DB::table('turno_usuarios')
-      ->select ('turno_usuarios.id','turno_usuarios.id_estado_turno','turno_usuarios.Num_Turno','estado_turno.nombre_estado','tipo_tramites.Letra')
-      ->join('estado_turno','estado_turno.idestado_turno','=','turno_usuarios.id_estado_turno')
-      ->join('tipo_tramites','tipo_tramites.id_tipo_tramite','=','turno_usuarios.id_tipotramite')
-      ->where('turno_usuarios.id',$cliente)
+      $usuario=Auth()->user();
+      $tramites=\DB::table('asignacion')
+      ->select('tramites_taquilla.idtramite','asignacion.idtaquilla','tipo_tramites.Descripcion')
+      ->join('users','users.id','=','asignacion.iduser')
+      ->join('taquilla','taquilla.num_taquilla','=','asignacion.idtaquilla')
+      ->join('tramites_taquilla','tramites_taquilla.idtaquilla','=','taquilla.num_taquilla')
+      ->join('tipo_tramites','tipo_tramites.id_tipo_tramite','=','tramites_taquilla.idtramite')
+      ->where('users.id',$usuario->id)
       ->first();
       // dd($turnos);
+      return view('turnos.turnos',compact('tramites','turnos'));
+    }
+    public function siguienteturno()
+    {
+      $turno=\DB::table('turno_usuarios')
+      ->select('turno_usuarios.id')
+      ->join('estado_turno','estado_turno.idestado_turno','=','turno_usuarios.id_estado_turno')
+      ->whereIn('turno_usuarios.id_tipotramite', function($query){
+        $usuario=Auth()->user();
+        $tramites=\DB::table('asignacion')
+        ->select('asignacion.idtaquilla')
+        ->join('users','users.id','=','asignacion.iduser')
+        ->where('users.id',$usuario->id)
+        ->first();
+      $query->select('tramites_taquilla.idtramite')
+      ->from('taquilla')
+      ->join('tramites_taquilla','tramites_taquilla.idtaquilla','=','taquilla.num_taquilla')
+      ->where('tramites_taquilla.idtaquilla','=',$tramites->idtaquilla)
+      ->where('turno_usuarios.id_estado_turno','=',1);
+    })
+      ->orderBy('turno_usuarios.prioridad','DESC')
+      ->limit(1)
+      ->first();
+
+      $estado=\DB::table('turno_usuarios')
+      ->where('turno_usuarios.id',$turno->id)
+      ->update(['id_estado_turno'=>2]);
+
+      $turnos=\DB::table('turno_usuarios')
+      ->select('turno_usuarios.id','turno_usuarios.Num_Turno','estado_turno.nombre_estado')
+      ->join('estado_turno','estado_turno.idestado_turno','=','turno_usuarios.id_estado_turno')
+      ->where('turno_usuarios.id',$turno->id)
+      ->first();
       $usuario=Auth()->user();
-      $estado2=$turnos->id_estado_turno;
       $tramites=\DB::table('asignacion')
-      ->select('asignacion.id_tipo_tramite','tipo_tramites.Descripcion','taquilla.num_taquilla')
-      ->join('taquilla','taquilla.num_taquilla','=','asignacion.num_taquilla')
-      ->join('tipo_tramites','tipo_tramites.id_tipo_tramite','=','asignacion.id_tipo_tramite')
-      ->join('users','users.id','=','taquilla.idusuario')
+      ->select('tramites_taquilla.idtramite','asignacion.idtaquilla','tipo_tramites.Descripcion')
+      ->join('users','users.id','=','asignacion.iduser')
+      ->join('taquilla','taquilla.num_taquilla','=','asignacion.idtaquilla')
+      ->join('tramites_taquilla','tramites_taquilla.idtaquilla','=','taquilla.num_taquilla')
+      ->join('tipo_tramites','tipo_tramites.id_tipo_tramite','=','tramites_taquilla.idtramite')
+      ->where('users.id',$usuario->id)
+      ->first();
+      // dd($turnos);
+      return view('turnos.turnos',compact('tramites','turnos'));
+
+    }
+    protected function cambioestado($turno,$taquilla)
+    {
+        \DB::table('turno_usuarios')
+        ->where('turno_usuarios.id',$turno)
+        ->update(['id_estado_turno'=>3]);
+
+        $turnos=\DB::table('turno_usuarios')
+        ->select('turno_usuarios.id','turno_usuarios.Num_Turno','estado_turno.nombre_estado',
+                  'turno_usuarios.id_tipotramite','turno_usuarios.cedulaUsuario','turno_usuarios.created_at','turno_usuarios.id_estado_turno')
+        ->join('estado_turno','estado_turno.idestado_turno','=','turno_usuarios.id_estado_turno')
+        ->where('turno_usuarios.id',$turno)
+        ->first();
+
+      $usuario=Auth()->user();
+      // $estado2=$turnos->id_estado_turno;
+
+      $tramites=\DB::table('asignacion')
+      ->select('tramites_taquilla.idtramite','asignacion.idtaquilla','tipo_tramites.Descripcion')
+      ->join('users','users.id','=','asignacion.iduser')
+      ->join('taquilla','taquilla.num_taquilla','=','asignacion.idtaquilla')
+      ->join('tramites_taquilla','tramites_taquilla.idtaquilla','=','taquilla.num_taquilla')
+      ->join('tipo_tramites','tipo_tramites.id_tipo_tramite','=','tramites_taquilla.idtramite')
       ->where('users.id',$usuario->id)
       ->first();
       $conteo=\DB::table('turno_usuarios')
-      ->where('turno_usuarios.id_tipotramite',$tramites->id_tipo_tramite)
+      ->where('turno_usuarios.id_tipotramite',$tramites->idtramite)
       ->where('turno_usuarios.id_estado_turno',1)
+      // ->orwhere('turno_usuarios.id_estado_turno',2)
       ->select (\DB::raw('count(*) as conteo'))
       ->first();
       //buscamos el turno mas pronto a atender
       $minimos=\DB::table('turno_usuarios')
       ->select (\DB::raw('min(created_at) as minimo'))
-      ->where('turno_usuarios.id_tipotramite',$tramites->id_tipo_tramite)
+      ->where('turno_usuarios.id_tipotramite',$tramites->idtramite)
       ->where('turno_usuarios.id_estado_turno',1)
+      // ->orwhere('turno_usuarios.id_estado_turno',2)
       ->distinct()
       ->first();
 
-
-      // $conteo= \DB::table('clientes')
-      // ->join('tramites','tramites.idtramite','=','clientes.idtramite')
-      // ->join('users','users.idtramite','=','clientes.idtramite')
-      // ->where('users.id',$usuario->id)
-      // ->where('clientes.estado',1)
-      // ->select (\DB::raw('count(*) as conteo'))
-      // ->first();
-      // $servicios= \DB::table('tramites')
-      // ->select ('tramites.nombre')
-      // ->join('users','users.idtramite','=','tramites.idtramite')
-      // ->where('users.id',$usuario->id)
-      // ->get();
-
-      if ($estado2 == 1) {
-        \DB::table('turno_usuarios')
-        ->where('turno_usuarios.id',$cliente)
-        ->update(['id_estado_turno'=>2]);
-      }
-      if ($estado2 == 2) {
-        \DB::table('turno_usuarios')
-        ->where('turno_usuarios.id',$cliente)
-        ->update(['id_estado_turno'=>3]);
-        return view('turnos/turnos',compact('conteo','tramites','turnos'));
-      }
-
+      \DB::table('visita')
+      ->insert([
+        'documento'=>$turnos->cedulaUsuario,
+        'id_tipo_tramite'=>$turnos->id_tipotramite,
+        'num_turno'=>$turnos->Num_Turno,
+        'fecha_creacion'=>$turnos->created_at,
+        'num_taquilla'=>$taquilla,
+      ]);
+      return view('turnos/turnos',compact('conteo','tramites','turnos'));
 
 
     }
+    protected function posponer($cliente,$taquilla){
+      // dd($taquilla);
+      $turno=\DB::table('turno_usuarios')->where('id',$cliente)->first();
+      \DB::table('visita')
+      ->insert([
+        'documento'=>$turno->cedulaUsuario,
+        'id_tipo_tramite'=>$turno->id_tipotramite,
+        'num_Turno'=>$turno->Num_Turno,
+        'fecha_creacion'=>$turno->created_at,
+        'num_taquilla'=>$taquilla,
+        'abandono'=>1
+      ]);
+      // dd($turno);
+      \DB::table('turno_usuarios')
+      ->where('turno_usuarios.id',$cliente)
+      ->delete();
 
+      return redirect('/turnos');
+
+    }
+    protected function transferir($cliente){
+      $tramites=\DB::table('tipo_tramites')->get();
+      $turno=\DB::table('turno_usuarios')->where('id',$cliente)->first();
+
+      return view('taquillas.transferir',compact('tramites','turno'));
+    }
+      protected function cambiotramite(Request $request,$cliente){
+
+        \DB::table('turno_usuarios')->where('id',$cliente)
+        ->update(['id_tipotramite'=>$request['idtramite'],
+                  'id_estado_turno'=>1
+      ]);
+        return redirect('/turnos');
+
+      }
+      protected function evaluacion($cliente){
+        $turno=\DB::table('turno_usuarios')->where('id',$cliente)->first();
+
+        return view('taquillas.evaluacion',compact('turno'));
+
+      }
+        protected function agregarevaluacion(Request $request,$cliente){
+            $turno=\DB::table('turno_usuarios')->where('id',$cliente)->first();
+            // $dt=new DateTime;
+
+            \DB::table('visita')
+            ->where('documento',$turno->cedulaUsuario)
+            ->where('fecha_creacion',$turno->created_at)
+            ->update(['evaluacion'=>$request['califica'],
+                      
+            ]);
+
+            \DB::table('turno_usuarios')->where('id',$cliente)->delete();
+
+            return redirect('/turnos');
+
+        }
 }

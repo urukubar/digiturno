@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAsignacion extends Migration
+class CreateTramitesTaquilla extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,14 @@ class CreateAsignacion extends Migration
      */
     public function up()
     {
-        Schema::create('asignacion', function (Blueprint $table) {
-            $table->Increments('idasignacion');
+        Schema::create('tramites_taquilla', function (Blueprint $table) {
+            $table->Increments('idtramite_taquilla');
             $table->Integer('idtaquilla')->unsigned();
-            $table->Integer('iduser')->unsigned();
+            $table->Integer('idtramite')->unsigned();
             $table->timestamps();
 
             $table->foreign('idtaquilla') -> references ('num_taquilla') -> on ('taquilla');
-            $table->foreign('iduser') -> references ('id') -> on ('users');
-
+            $table->foreign('idtramite') -> references ('id_tipo_tramite') -> on ('tipo_tramites');
         });
     }
 
@@ -32,6 +31,6 @@ class CreateAsignacion extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('asignacion');
+        Schema::dropIfExists('tramites_taquilla');
     }
 }

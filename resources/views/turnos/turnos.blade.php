@@ -15,9 +15,9 @@
   					<h3>Usuario: </h3>
             <input type="text" name="" value="{{ Auth::user()->name }}" >
             <h3>Taquilla</h3>
-            <input type="text" name="" value="Taquilla {{$tramites->num_taquilla}}">
+            <input type="text" name="" value="Taquilla {{$tramites->idtaquilla}}">
             <h3>Estado</h3>
-            <input type="text" name="" value="{{$turnos->nombre_estado}}">
+              <input type="text" name="" value="{{$turnos->nombre_estado}}">
             <h3>Turno</h3>
             <input type="text" name="" value="{{$turnos->Num_Turno}} ">
 
@@ -30,12 +30,12 @@
   				<!-- SIDEBAR BUTTONS -->
   				<div class="profile-userbuttons">
             <a href="{{route('llamado')}}" class="btn btn-warning btn-lg btn-block">Siguiente</a>
-            <a href="{{route('turnos2',$turnos->id)}}" class="btn btn-success btn-lg btn-block">Atender</a>
-            <a href="#" class="btn btn-primary btn-lg btn-block">Transferir</a>
-            <a href="#" class="btn btn-danger btn-lg btn-block">Evaluacion</a>
+            <a href="{{route('turnos2',[$turnos->id,$tramites->idtaquilla])}}" class="btn btn-success btn-lg btn-block">Atender</a>
+            <a href="{{route('trasnferir',$turnos->id)}}" class="btn btn-primary btn-lg btn-block">Transferir</a>
+            <a href="{{route('evaluacion',$turnos->id)}}" class="btn btn-danger btn-lg btn-block">Evaluacion</a>
             <br>
-            <a href="#" class="btn btn-success btn-sm">Llamar</a>
-            <a href="#" class="btn btn-info btn-sm">Posponer</a>
+            <a href="#" class="btn btn-success btn-sm">Posponer</a>
+            <a href="{{route('turnos3',[$turnos->id,$tramites->idtaquilla])}}" class="btn btn-info btn-sm">Abandono</a>
   				</div>
   				<!-- END SIDEBAR BUTTONS -->
 
@@ -56,8 +56,8 @@
                     <tr>
 
                       {{-- @foreach($servicios as $servicio) --}}
-                        <th scope="row">{{$tramites->Descripcion}}</th>
-                        <td scope="row">{{$conteo->conteo}}</td>
+                        {{-- <th scope="row">{{$tramites->Descripcion}}</th> --}}
+                        {{-- <td scope="row">{{$conteo->conteo}}</td> --}}
                         <td></td>
                       {{-- @endforeach --}}
                     </tr>

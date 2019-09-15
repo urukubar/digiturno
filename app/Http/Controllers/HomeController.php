@@ -24,14 +24,20 @@ class HomeController extends Controller
     public function index()
     {
       $usuario=Auth()->user();
-      return view('home',compact('usuario'));
+      if ($usuario->id==1) {
+        return redirect('/usuarios');
+      }else {
+        return view('home',compact('usuario'));
+      }
+
     }
 
     public function newtaquilla(Request $request,$id)
     {
+
       $datos=request()->except(['_token','_method']);
-      \DB::table('taquilla')->where('idusuario',$id)->update(['idusuario'=>null]);
-      \DB::table('taquilla')->where('num_taquilla',$request->taquilla)->update(['idusuario'=>$id]);
+      \DB::table('asignacion')->where('iduser',$id)->update(['iduser'=>null]);
+      \DB::table('asignacion')->where('idtaquilla',$request->taquilla)->update(['iduser'=>$id]);
       return redirect('/turnos');
     }
 

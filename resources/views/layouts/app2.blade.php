@@ -45,11 +45,11 @@
         </a>
       </li>
       </ul>
-      @if (Route::has('register'))
+      {{-- @if (Route::has('register'))
           <li class="nav-item">
               <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
           </li>
-      @endif
+      @endif --}}
 
     @else
       @if (Auth::user()->idtipo_usuario==1)
@@ -93,5 +93,12 @@
 <main class="py-4">
     @yield('content')
 </main>
+
+<script type="text/javascript">
+function digitar(valor) {
+          document.getElementById("calificacion").value += valor;
+        }
+
+</script>
   </body>
 </html>

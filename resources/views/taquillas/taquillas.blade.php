@@ -14,7 +14,8 @@
       <tr>
         <th scope="col">#</th>
         <th scope="col">Numero Taquilla</th>
-        <th scope="col">Usuario Actual</th>
+        <th scope="col">Tramite</th>
+        <th scope="col">Usuario</th>
         <th scope="col">Acciones</th>
       </tr>
     </thead>
@@ -23,7 +24,8 @@
     <tr>
       <th scope="row"></th>
       <td>Taquilla {{$taquilla->num_taquilla}}</td>
-      <td>{{$taquilla->name}}</td>
+      <td> {{$taquilla->Descripcion}}</td>
+      <td> {{$taquilla->name}}</td>
       <td>
         <a href="{{url('/taquillas/'.$taquilla->num_taquilla.'/edit')}}" >Editar |</a>
 
@@ -35,7 +37,7 @@
       </td>
     </tr>
     @endforeach
-    @foreach($taquillas2 as $taquilla2)
+    {{-- @foreach($taquillas2 as $taquilla2)
     <tr>
       <th scope="row"></th>
       <td>Taquilla {{$taquilla2->num_taquilla}}</td>
@@ -50,7 +52,7 @@
         </form>
       </td>
     </tr>
-    @endforeach
+    @endforeach --}}
     </tbody>
     </table>
   </div>

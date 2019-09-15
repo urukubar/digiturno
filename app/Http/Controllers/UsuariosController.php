@@ -14,27 +14,9 @@ class UsuariosController extends Controller
 
     public function index()
     {
-      // $usuarios=\DB::table('users')->get();
-      $usuarios=\DB::table('asignacion')
-      ->select('taquilla.num_taquilla','users.id','users.name','users.email','tipo_tramites.Descripcion')
-      ->join('taquilla','taquilla.num_taquilla','=','asignacion.num_taquilla')
-      ->join('tipo_tramites','tipo_tramites.id_tipo_tramite','=','asignacion.id_tipo_tramite')
-      ->join('users','users.id','=','taquilla.idusuario')
-      ->get();
-      $usuarios2=\DB::table('users')->get();
+    
+      $usuarios=\DB::table('users')->get();
 
-
-      // foreach ($usuarios2 as $usuario2) {
-      //     foreach ($usuarios as $usuario) {
-      //       if ($usuario2->id == $usuarios->id) {
-      //         $cont=$usuario2;
-      //       }
-      //       else {
-      //         $sint=$usuaro2;
-      //       }
-      //     }
-      // }
-      // dd($usuarios);
       return view('usuarios.usuarios', compact('usuarios'));
     }
 
