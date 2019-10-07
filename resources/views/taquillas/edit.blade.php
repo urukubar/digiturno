@@ -35,13 +35,21 @@
 
                         <div class="form-group row">
                           <label class="col-md-4 col-form-label text-md-right">{{ __('Tramite') }}</label>
-                          <div class="col-md-6">
+                          {{-- <div class="col-md-6">
                             <select class="form-control" id="exampleFormControlSelect1" name="idtramite">
                               @foreach ($tramites as $tramite)
                               <option value="{{$tramite->id_tipo_tramite}}">{{$tramite->Descripcion}} </option>
                               @endforeach
                             </select>
-                          </div>
+                          </div> --}}
+
+                          @foreach ($tramites as $tramite)
+
+                            <div class="form-group form-check">
+                              <input type="checkbox" class="form-check-input" id="exampleCheck1" name="idtramite[]" value="{{$tramite->id_tipo_tramite}}">
+                                <label class="form-check-label" for="exampleCheck1">{{$tramite->Descripcion}}</label>
+                            </div>
+                            @endforeach
                         </div>
 
                         <div class="form-group row mb-0">

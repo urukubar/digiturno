@@ -35,10 +35,9 @@ class TaquillaController extends Controller
       \DB::table('taquilla')
       ->where('taquilla.num_taquilla',$id)
       ->update($datos);
-
+      //
       $usuario_taquilla=\DB::table('asignacion')->WHERE('idtaquilla',$id)->get();
       $tramite_taquilla=\DB::table('tramites_taquilla')->WHERE('idtaquilla',$id)->get();
-
 
       if (count($usuario_taquilla)>0) {
         \DB::table('asignacion')->where('idtaquilla',$id)->update(['iduser'=>$request['idusuario']]);
@@ -49,22 +48,27 @@ class TaquillaController extends Controller
           'iduser'=>$request['idusuario']
           ]);
       }
-      if (count($tramite_taquilla)>0) {
-        \DB::table('tramites_taquilla')->where('idtaquilla',$id)->update(['idtramite'=>$request['idtramite']]);
-      }else {
-        \DB::table('tramites_taquilla')
-        ->insert([
-          'idtaquilla'=>$id,
-          'idtramite'=>$request['idtramite']
-          ]);
-      }
-
-
-
-      return redirect('/taquillas');
-
+      $tramites=$request->idtramite;
+       if (count($tramite_taquilla)>0) {
+         \DB::table('tramites_taquilla')->where('idtaquilla',$id)->delete();
+         foreach ($tramites as $tramite) {
+           \DB::table('tramites_taquilla')
+             ->insert([
+               'idtaquilla'=>$id,
+               'idtramite'=>$tramite
+               ]);
+         }
+       }else {
+         foreach ($tramites as $tramite) {
+           \DB::table('tramites_taquilla')
+             ->insert([
+               'idtaquilla'=>$id,
+               'idtramite'=>$tramite
+               ]);
+         }
+       }
+       return redirect('/taquillas');
     }
-
     public function destroy($id)
     {
       $servicio=\DB::table('taquilla')

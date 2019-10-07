@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use app\cliente;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class MostrarturnoController extends Controller
 {
@@ -32,9 +33,7 @@ class MostrarturnoController extends Controller
       ->select (\DB::raw('count(*) as conteo'))
       ->first();
       // dd($tramites);
-
         return view('turnos/inicioturnos',compact('tramites','conteo'));
-
     }
     protected function mostrardatos($turno)
     {
@@ -78,13 +77,12 @@ class MostrarturnoController extends Controller
       ->where('turno_usuarios.id_estado_turno','=',1);
     })
       ->orderBy('turno_usuarios.prioridad','DESC')
+      ->orderBy('turno_usuarios.created_at')
       ->limit(1)
       ->first();
-
       $estado=\DB::table('turno_usuarios')
       ->where('turno_usuarios.id',$turno->id)
       ->update(['id_estado_turno'=>2]);
-
       $turnos=\DB::table('turno_usuarios')
       ->select('turno_usuarios.id','turno_usuarios.Num_Turno','estado_turno.nombre_estado')
       ->join('estado_turno','estado_turno.idestado_turno','=','turno_usuarios.id_estado_turno')
@@ -101,24 +99,20 @@ class MostrarturnoController extends Controller
       ->first();
       // dd($turnos);
       return view('turnos.turnos',compact('tramites','turnos'));
-
     }
     protected function cambioestado($turno,$taquilla)
     {
         \DB::table('turno_usuarios')
         ->where('turno_usuarios.id',$turno)
         ->update(['id_estado_turno'=>3]);
-
         $turnos=\DB::table('turno_usuarios')
         ->select('turno_usuarios.id','turno_usuarios.Num_Turno','estado_turno.nombre_estado',
                   'turno_usuarios.id_tipotramite','turno_usuarios.cedulaUsuario','turno_usuarios.created_at','turno_usuarios.id_estado_turno')
         ->join('estado_turno','estado_turno.idestado_turno','=','turno_usuarios.id_estado_turno')
         ->where('turno_usuarios.id',$turno)
         ->first();
-
       $usuario=Auth()->user();
       // $estado2=$turnos->id_estado_turno;
-
       $tramites=\DB::table('asignacion')
       ->select('tramites_taquilla.idtramite','asignacion.idtaquilla','tipo_tramites.Descripcion')
       ->join('users','users.id','=','asignacion.iduser')
@@ -141,7 +135,6 @@ class MostrarturnoController extends Controller
       // ->orwhere('turno_usuarios.id_estado_turno',2)
       ->distinct()
       ->first();
-
       \DB::table('visita')
       ->insert([
         'documento'=>$turnos->cedulaUsuario,
@@ -151,28 +144,6 @@ class MostrarturnoController extends Controller
         'num_taquilla'=>$taquilla,
       ]);
       return view('turnos/turnos',compact('conteo','tramites','turnos'));
-
-
-    }
-    protected function posponer($cliente,$taquilla){
-      // dd($taquilla);
-      $turno=\DB::table('turno_usuarios')->where('id',$cliente)->first();
-      \DB::table('visita')
-      ->insert([
-        'documento'=>$turno->cedulaUsuario,
-        'id_tipo_tramite'=>$turno->id_tipotramite,
-        'num_Turno'=>$turno->Num_Turno,
-        'fecha_creacion'=>$turno->created_at,
-        'num_taquilla'=>$taquilla,
-        'abandono'=>1
-      ]);
-      // dd($turno);
-      \DB::table('turno_usuarios')
-      ->where('turno_usuarios.id',$cliente)
-      ->delete();
-
-      return redirect('/turnos');
-
     }
     protected function transferir($cliente){
       $tramites=\DB::table('tipo_tramites')->get();
@@ -195,20 +166,59 @@ class MostrarturnoController extends Controller
         return view('taquillas.evaluacion',compact('turno'));
 
       }
-        protected function agregarevaluacion(Request $request,$cliente){
+        protected function agregarevaluacion(Request $request,$cliente)
+        {
             $turno=\DB::table('turno_usuarios')->where('id',$cliente)->first();
             // $dt=new DateTime;
-
+            $date = Carbon::now();
+            // dd($date);
             \DB::table('visita')
             ->where('documento',$turno->cedulaUsuario)
             ->where('fecha_creacion',$turno->created_at)
             ->update(['evaluacion'=>$request['califica'],
-                      
+                      'fin_atencion'=>$date
             ]);
-
             \DB::table('turno_usuarios')->where('id',$cliente)->delete();
-
             return redirect('/turnos');
+        }
+        protected function posponer($turno)
+        {
+          $fecha=\DB::table('turno_usuarios')
+          ->select('created_at')
+          ->where('id',$turno)
+          ->first();
 
+          $aum=strtotime('10 minutes', strtotime($fecha->created_at));
+          $aum=date('y-m-d H:i:s ',$aum);
+          // dd($aum);
+          $cambio=\DB::table('turno_usuarios')
+          ->where('id',$turno)
+          ->update(['created_at'=>$aum,
+                    'id_estado_turno'=>1
+          ]);
+          return redirect('/turnos/llamando');
+        }
+        protected function abandono($turno,$taquilla)
+        {
+          $cliente=\DB::table('turno_usuarios')
+          ->where('id',$turno)
+          ->first();
+
+          \DB::table('visita')
+          ->insert([
+                    'documento'=>$cliente->cedulaUsuario,
+                    'id_tipo_tramite'=>$cliente->id_tipotramite,
+                    'num_turno'=>$cliente->Num_Turno,
+                    'fecha_creacion'=>$cliente->created_at,
+                    'num_taquilla'=>$taquilla,
+                    'abandono'=>1
+          ]);
+
+          \DB::table('turno_usuarios')
+          ->where('id',$turno)
+          ->delete();
+          return redirect('/turnos');
+
+          // dd($cliente);
         }
 }

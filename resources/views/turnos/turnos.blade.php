@@ -34,8 +34,8 @@
             <a href="{{route('trasnferir',$turnos->id)}}" class="btn btn-primary btn-lg btn-block">Transferir</a>
             <a href="{{route('evaluacion',$turnos->id)}}" class="btn btn-danger btn-lg btn-block">Evaluacion</a>
             <br>
-            <a href="#" class="btn btn-success btn-sm">Posponer</a>
-            <a href="{{route('turnos3',[$turnos->id,$tramites->idtaquilla])}}" class="btn btn-info btn-sm">Abandono</a>
+            <a href="{{route('posponer',$turnos->id)}}" class="btn btn-success btn-sm">Posponer</a>
+            <a href="{{route('abandono',[$turnos->id,$tramites->idtaquilla])}}" class="btn btn-info btn-sm">Abandono</a>
   				</div>
   				<!-- END SIDEBAR BUTTONS -->
 

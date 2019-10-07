@@ -40,11 +40,13 @@ Route::get('/createtaquilla',function(){
 Route::get('/turnos','MostrarturnoController@index')->name('turnos');
 Route::get('/turnos/llamando','MostrarturnoController@siguienteturno')->name('llamado');
 Route::get('/turnos/{id}/{idt}','MostrarturnoController@cambioestado')->name('turnos2');
-Route::get('/posponer/{id}/{idt}','MostrarturnoController@posponer')->name('turnos3');
+Route::get('/abandono/{id}/{idt}','MostrarturnoController@abandono')->name('abandono');
 Route::get('/transferir/{id}','MostrarturnoController@transferir')->name('trasnferir');
 Route::post('/cambiotramite/{id}','MostrarturnoController@cambiotramite')->name('cambiotramite');
 Route::get('/evaluacion/{id}','MostrarturnoController@evaluacion')->name('evaluacion');
 Route::post('/envioevaluacion/{id}','MostrarturnoController@agregarevaluacion')->name('envio');
+Route::get('/posponer/{id}','MostrarturnoController@posponer')->name('posponer');
+
 
 Route::resource('tramites','TramiteController');
 Route::get('/createtramite',function(){
