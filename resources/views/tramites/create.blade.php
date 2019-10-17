@@ -7,14 +7,11 @@
           <div class="col-md-8">
               <div class="card">
                   <div class="card-header">{{ __('Registrar Nuevo Tramite') }}</div>
-
                   <div class="card-body">
                       <form  method="POST" action="{{url('/tramites')}}">
                           @csrf
-
                           <div class="form-group row">
                               <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Nombre Del Nuevo Tramite') }}</label>
-
                               <div class="col-md-6">
                                   <input id="tramite" type="text" class="form-control @error('name') is-invalid @enderror" name="Descripcion" value="{{ old('name') }}" required autocomplete="name" autofocus>
                                   @error('name')

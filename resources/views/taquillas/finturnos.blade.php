@@ -9,7 +9,6 @@
               <div class="card-header">{{ __('Fin de turnos ') }}</div>
                 <div class="card-body">
                     <form class="" action="" method="post">
-
                       <div class="form-group row">
                         <label class="col-md-4 col-form-label text-md-right" for="exampleInputEmail1">no hay mas turnos por atender </label>
                       </div>

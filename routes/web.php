@@ -46,6 +46,11 @@ Route::post('/cambiotramite/{id}','MostrarturnoController@cambiotramite')->name(
 Route::get('/evaluacion/{id}','MostrarturnoController@evaluacion')->name('evaluacion');
 Route::post('/envioevaluacion/{id}','MostrarturnoController@agregarevaluacion')->name('envio');
 Route::get('/posponer/{id}','MostrarturnoController@posponer')->name('posponer');
+////////////
+
+//ruta de turnos Administracion
+Route::get('/turnos/admin','adminController@index')->name('turnosadmin');
+Route::get('/turnostramite/{id}','adminController@listarturnos')->name('listarturnos');
 
 
 Route::resource('tramites','TramiteController');

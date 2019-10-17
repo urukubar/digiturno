@@ -11,8 +11,6 @@
                   <div class="card-body">
                       <form  method="POST" action="{{url('/taquillas')}}">
                           @csrf
-
-
                           <div class="form-group row">
                             <label class="col-md-4 col-form-label text-md-right" for="exampleInputEmail1">Numero De La Taquilla</label>
                             <div class="col-md-6">
@@ -20,7 +18,6 @@
                             </div>
                           </div>
                           <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-
                           <div class="form-group row mb-0">
                               <div class="col-md-6 offset-md-4">
                                   <button type="submit" class="btn btn-primary">
@@ -34,7 +31,4 @@
           </div>
       </div>
   </div>
-
-
-
 @endsection

@@ -9,34 +9,34 @@
         <br/>
         <br>
         <div class="card">
-    <table class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Numero Taquilla</th>
-        <th scope="col">Tramite</th>
-        <th scope="col">Usuario</th>
-        <th scope="col">Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-    @foreach($taquillas as $taquilla)
-    <tr>
-      <th scope="row"></th>
-      <td>Taquilla {{$taquilla->num_taquilla}}</td>
-      <td> {{$taquilla->Descripcion}}</td>
-      <td> {{$taquilla->name}}</td>
-      <td>
-        <a href="{{url('/taquillas/'.$taquilla->num_taquilla.'/edit')}}" >Editar |</a>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Numero Taquilla</th>
+                <th scope="col">Tramite</th>
+                <th scope="col">Usuario</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach($taquillas as $taquilla)
+                <tr>
+                  <th scope="row"></th>
+                  <td>Taquilla {{$taquilla->num_taquilla}}</td>
+                  <td> {{$taquilla->Descripcion}}</td>
+                  <td> {{$taquilla->name}}</td>
+                  <td>
+                    <a href="{{url('/taquillas/'.$taquilla->num_taquilla.'/edit')}}" >Editar |</a>
 
-        <form class="" action="{{ url('/taquillas/'.$taquilla->num_taquilla)}}" method="post">
-          {{csrf_field()}}
-          {{method_field('DELETE')}}
-          <button type="submit" onclick="return confirm('¿desea borrar este usuario?')" >Eliminar</button>
-        </form>
-      </td>
-    </tr>
-    @endforeach
+                    <form class="" action="{{ url('/taquillas/'.$taquilla->num_taquilla)}}" method="post">
+                      {{csrf_field()}}
+                      {{method_field('DELETE')}}
+                      <button type="submit" onclick="return confirm('¿desea borrar este usuario?')" >Eliminar</button>
+                    </form>
+                  </td>
+                </tr>
+              @endforeach
     {{-- @foreach($taquillas2 as $taquilla2)
     <tr>
       <th scope="row"></th>
@@ -53,13 +53,10 @@
       </td>
     </tr>
     @endforeach --}}
-    </tbody>
-    </table>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
-  </div>
-  </div>
-  </div>
-
-
-
 @endsection

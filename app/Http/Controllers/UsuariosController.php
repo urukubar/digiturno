@@ -1,9 +1,6 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
-
 class UsuariosController extends Controller
 {
   public function __construct()
@@ -14,7 +11,7 @@ class UsuariosController extends Controller
 
     public function index()
     {
-    
+
       $usuarios=\DB::table('users')->get();
 
       return view('usuarios.usuarios', compact('usuarios'));
