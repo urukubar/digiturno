@@ -74,11 +74,11 @@
                   {{ Auth::user()->name }} <span class="caret"></span>
               </a>
               <div class="dropdown-menu dropdown-menu-Left" aria-labelledby="navbarDropdown">
-                <a  class="dropdown-item" href="{{ route('password') }}">{{ __('Password') }}</a>
+                <a  class="dropdown-item" href="{{ route('password') }}">{{ __('Contraseña') }}</a>
                 <a class="dropdown-item" href="{{ route('logout') }}"
                  onclick="event.preventDefault();
                                document.getElementById('logout-form').submit();">
-                  {{ __('Logout') }}
+                  {{ __('Cerrar sesion') }}
                 </a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                   @csrf

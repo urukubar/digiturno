@@ -49,18 +49,16 @@
                     <tr>
                       <th scope="col">Tipo De Tramite</th>
                       <th scope="col">turnos en cola</th>
-                      <th scope="col">Taquillas Disponibles</th>
+                      {{-- <th scope="col">Taquillas Disponibles</th> --}}
                     </tr>
                   </thead>
                   <tbody>
+                    @foreach($conteo as $cont)
                     <tr>
-
-                      {{-- @foreach($tramites as $tramite) --}}
-                      <th scope="row">{{$tramites->Descripcion}}</th>
-                      <td scope="row">{{$conteo->conteo}}</td>
-                      <td></td>
-                      {{-- @endforeach --}}
+                      <th scope="row">{{$cont->Descripcion}}</th>
+                      <td scope="row">{{$cont->conteo}}</td>
                     </tr>
+                    @endforeach
                   </tbody>
                 </table>
               </div>

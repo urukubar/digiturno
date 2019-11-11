@@ -6,24 +6,34 @@
       <div class="card">
         <div class="card-header">{{ __('Cambiar Contraseña') }}</div>
           <div class="card-body">
-            <form class="" action="{{url('/usuarios/'.$usuario->id)}}" method="post">
+            @if (session()->has('msj'))
+              <div class="alert alert-success" role="alert">
+                {{session('msj')}}
+              </div>
+            @endif
+            @if (session()->has('errormjs'))
+              <div class="alert alert-danger" role="alert">
+                {{session('errormjs')}}
+              </div>
+            @endif
+            <form class="" action="{{url('/newpass/'.$usuario->id)}}" method="post">
               {{csrf_field()}}
               {{method_field('PATCH')}}
                 <div class="form-group">
-                  <label for="exampleInputEmail1">Password Actual</label>
-                  <input type="password" name="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ingrese Contraseña Actual" value="">
+                  <label for="exampleInputEmail1">Contraseña Actual</label>
+                  <input type="password" name="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required placeholder="Ingrese Contraseña Actual" value="">
                   <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputEmail1">Nuevo Password</label>
-                  <input type="password" name="email"  class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nueva Contraseña" value="">
+                  <label for="exampleInputEmail1">Nuevo contraseña</label>
+                  <input type="password" name="newpass"  class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required placeholder="Nueva Contraseña" value="">
                   <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
                 </div>
-                <div class="form-group">
+                {{-- <div class="form-group">
                   <label for="exampleInputEmail1">Nuevo Password</label>
                   <input type="password" name="email"  class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Repita Contraseña" value="">
                   <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-                </div>
+                </div> --}}
 
                 <button type="submit" class="btn btn-primary">Cambiar</button>
 

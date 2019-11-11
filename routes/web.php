@@ -62,3 +62,5 @@ Route::get('/password',function(){
   $usuario=$usuario=Auth()->user();
   return view('usuarios.password',compact('usuario'));
 })->name('password');
+
+Route::patch('newpass/{id}','UsuariosController@updatepass')->name('newpass');

@@ -11,6 +11,7 @@
                   <th scope="col">#</th>
                   <th scope="col">Tramite</th>
                   <th scope="col">Letra</th>
+                  <th scope="col">Turnos</th>
                   {{-- <th scope="col">Cantidad</th> --}}
                 </tr>
               </thead>
@@ -20,6 +21,8 @@
                     <td scope="row"> {{$loop->iteration}}</td>
                     <td><a href="{{url('/turnostramite/'.$tramite->id_tipo_tramite)}}"> {{$tramite->Descripcion}} </a></td>
                     <td>{{$tramite->Letra}}</td>
+                    <td>{{$tramite->conteo}}</td>
+
                   </tr>
                 @endforeach
               </tbody>

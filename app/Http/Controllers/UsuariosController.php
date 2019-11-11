@@ -1,6 +1,9 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 class UsuariosController extends Controller
 {
   public function __construct()
@@ -59,5 +62,17 @@ class UsuariosController extends Controller
       $usuarios=\DB::table('users')->get();
       return view('usuarios.usuarios', compact('usuarios'));
     }
+    public function updatepass(Request $request,$id)
+    {
 
+      $pass=Hash::check($request->password, Auth::user()->password);
+      if ($pass == true ) {
+        \DB::table('users')
+        ->where('id',Auth::user()->id)
+        ->update(['password'=>Hash::make($request->newpass)]);
+        return redirect('turnos')->with('msj', 'Se actualizo la contraseña conrrectamente');
+      }else {
+        return back()->with('errormjs', 'La contraseña es incorrecta');
+      }
+    }
 }

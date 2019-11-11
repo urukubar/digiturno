@@ -25,13 +25,24 @@ class MostrarturnoController extends Controller
       ->join('tipo_tramites','tipo_tramites.id_tipo_tramite','=','tramites_taquilla.idtramite')
       ->where('users.id',$usuario->id)
       ->first();
-      //hacemos un conteo de los turnos en espera
+
       $conteo=\DB::table('turno_usuarios')
-      ->where('turno_usuarios.id_tipotramite',$tramites->idtramite)
-      ->where('turno_usuarios.id_estado_turno',1)
-      // ->orwhere('turno_usuarios.id_estado_turno',2)
-      ->select (\DB::raw('count(*) as conteo'))
-      ->first();
+      ->select(\DB::raw('count(*) as conteo'),'tipo_tramites.Descripcion')
+      ->join('tipo_tramites','tipo_tramites.id_tipo_tramite','=','turno_usuarios.id_tipotramite')
+      ->whereIn('turno_usuarios.id_tipotramite', function($query){
+          $usuario=Auth()->user();
+          $tramites=\DB::table('asignacion')
+          ->select('asignacion.idtaquilla')
+          ->join('users','users.id','=','asignacion.iduser')
+          ->where('users.id',$usuario->id)
+          ->first();
+          $query->select('tramites_taquilla.idtramite')
+          ->from('taquilla')
+          ->join('tramites_taquilla','tramites_taquilla.idtaquilla','=','taquilla.num_taquilla')
+          ->where('tramites_taquilla.idtaquilla','=',$tramites->idtaquilla);
+      })
+      ->groupBy('tipo_tramites.Descripcion')
+      ->get();
       // dd($tramites);
         return view('turnos/inicioturnos',compact('tramites','conteo'));
     }
@@ -80,14 +91,17 @@ class MostrarturnoController extends Controller
       ->orderBy('turno_usuarios.created_at')
       ->limit(1)
       ->first();
+
       $estado=\DB::table('turno_usuarios')
       ->where('turno_usuarios.id',$turno->id)
       ->update(['id_estado_turno'=>2]);
+
       $turnos=\DB::table('turno_usuarios')
       ->select('turno_usuarios.id','turno_usuarios.Num_Turno','estado_turno.nombre_estado')
       ->join('estado_turno','estado_turno.idestado_turno','=','turno_usuarios.id_estado_turno')
       ->where('turno_usuarios.id',$turno->id)
       ->first();
+
       $usuario=Auth()->user();
       $tramites=\DB::table('asignacion')
       ->select('tramites_taquilla.idtramite','asignacion.idtaquilla','tipo_tramites.Descripcion')
