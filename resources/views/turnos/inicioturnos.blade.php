@@ -9,7 +9,11 @@
       <div class="row profile">
   		<div class="col-md-3">
   			<div class="profile-sidebar">
-
+          @if (session()->has('msj'))
+            <div class="alert alert-success" role="alert">
+              {{session('msj')}}
+            </div>
+          @endif
   			    <!-- SIDEBAR MENU -->
   				<div class="profile-usermenu">
   					<h3>Usuario: </h3>

@@ -14,7 +14,7 @@ class CreateTipoTramitesTable extends Migration
     public function up()
     {
         Schema::create('tipo_tramites', function (Blueprint $table) {
-            // $table->engine = "InnoDB";
+            $table->engine = "InnoDB";
             $table->Increments('id_tipo_tramite');
 
             $table->String('Descripcion');

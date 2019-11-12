@@ -14,9 +14,10 @@ class CreateAsignacion extends Migration
     public function up()
     {
         Schema::create('asignacion', function (Blueprint $table) {
+          $table->engine = 'InnoDB';
             $table->Increments('idasignacion');
             $table->Integer('idtaquilla')->unsigned();
-            $table->Integer('iduser')->unsigned();
+            $table->Integer('iduser')->unsigned()->nullable();
             $table->timestamps();
 
             $table->foreign('idtaquilla') -> references ('num_taquilla') -> on ('taquilla');

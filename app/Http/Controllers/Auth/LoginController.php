@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -40,4 +43,21 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-}
+    public function logout(Request $request)
+    {
+      \DB::table('users')->where('id', Auth()->user()->id)->update(['conectado'=>0]);
+      Auth::logout();
+      return redirect('/login');
+    }
+    // public function login(Request $request)
+    // {
+    //   $login=\DB::table('users')
+    //   ->where('email',$request->email )
+    //   ->first();
+    //   $pass=Hash::check($request->password, $login->password);
+    //
+    //   if ($pass=true) {
+    //     return view('turnos.turnoadmin');
+    //   }
+
+    }

@@ -19,6 +19,25 @@ class UsuariosController extends Controller
 
       return view('usuarios.usuarios', compact('usuarios'));
     }
+    public function crear(Request $request)
+    {
+      if ($request->password1 == $request->password2) {
+        $usuario=\DB::table('users')->where('email',$request->email)->first();
+        if ($usuario == null) {
+          \DB::table('users')->insert([
+            'name'=>$request['name'],
+            'email'=>$request['email'],
+            'password' => Hash::make($request['password1']),
+            'idtipo_usuario' => 2
+          ]);
+          return back()->with('msj', 'usuario guardado con exito');
+        }else {
+          return back()->with('msj2', 'el email ya esta registrado');
+        }
+      }else {
+        return back()->with('msj2', ' Las contraseñas no coinciden ');
+      }
+    }
 
 
     public function edit($id)
@@ -33,7 +52,7 @@ class UsuariosController extends Controller
 
     public function destroy($id)
     {
-      \DB::table('taquilla')->where('idusuario',$id)->update(['idusuario'=>null]);
+      \DB::table('asignacion')->where('iduser',$id)->update(['iduser'=>null]);
       $user=Auth()->user()::destroy($id);
       return redirect('usuarios');
     }
@@ -44,17 +63,6 @@ class UsuariosController extends Controller
       \DB::table('users')->where('id',$id)->update($datos);
       $usuarios=\DB::table('users')
       ->get();
-      // dd($request->num_taquilla);
-      if ($request->num_taquilla == null) {
-        \DB::table('taquilla')->where('num_taquilla',$request->num_taquilla)->update(['idusuario'=>null]);
-      }
-      else {
-          \DB::table('taquilla')->where('num_taquilla',$request->num_taquilla)->update(['idusuario'=>$id]);
-      }
-
-
-      // $tramites=\DB::table('tramites')->get();
-      // return view('usuarios.usuarios',compact('usuarios','tramites'));
       return redirect('usuarios');
     }
     public function show()
@@ -70,7 +78,7 @@ class UsuariosController extends Controller
         \DB::table('users')
         ->where('id',Auth::user()->id)
         ->update(['password'=>Hash::make($request->newpass)]);
-        return redirect('turnos')->with('msj', 'Se actualizo la contraseña conrrectamente');
+        return redirect('password')->with('msj', 'Se actualizo la contraseña conrrectamente');
       }else {
         return back()->with('errormjs', 'La contraseña es incorrecta');
       }

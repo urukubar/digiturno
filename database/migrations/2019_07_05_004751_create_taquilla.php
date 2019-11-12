@@ -14,6 +14,7 @@ class CreateTaquilla extends Migration
     public function up()
     {
         Schema::create('taquilla', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->Increments('num_taquilla');
             $table->timestamps();
 

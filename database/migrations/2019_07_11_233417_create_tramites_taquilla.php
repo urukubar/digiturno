@@ -14,6 +14,7 @@ class CreateTramitesTaquilla extends Migration
     public function up()
     {
         Schema::create('tramites_taquilla', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->Increments('idtramite_taquilla');
             $table->Integer('idtaquilla')->unsigned();
             $table->Integer('idtramite')->unsigned();

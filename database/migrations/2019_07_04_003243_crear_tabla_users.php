@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class CrearTablaUsers extends Migration
 {
@@ -14,16 +16,18 @@ class CrearTablaUsers extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            // $table->engine = 'InnoDB';
+            $table->engine = 'InnoDB';
             $table->Increments('id');
             $table->string('name');
             $table->string('email');
             $table->string('password');
 
             $table->integer('idtipo_usuario')->unsigned();
+            $table->boolean('conectado')->default(false);
             $table->timestamps();
             //llaves foraneas
             $table->foreign('idtipo_usuario')->references('idtipo_usuario')->on('tipo_usuario');
+
         });
     }
 

@@ -22,6 +22,7 @@ class CreateTurnoUsuariosTable extends Migration
             $table->integer('id_tipotramite')->unsigned();
             $table->integer('Num_Turno');
             $table->integer('id_estado_turno')->unsigned();
+            $table->boolean('prioridad')->default(false);
 
             //Foreign key
             $table->foreign('id_tipotramite') -> references ('id_tipo_tramite') -> on ('tipo_tramites');

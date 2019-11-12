@@ -14,6 +14,7 @@ class CreateVisita extends Migration
     public function up()
     {
         Schema::create('visita', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->Increments('idvisita');
             $table->Integer('documento');
             $table->Integer('id_tipo_tramite');
@@ -21,7 +22,7 @@ class CreateVisita extends Migration
             $table->DateTime('fecha_creacion');
             $table->Integer('num_taquilla')->unsigned();
             $table->DateTime('incio_atencion');
-            $table->DateTime('fin_atencion');
+            $table->DateTime('fin_atencion')->nullable();
             $table->Integer('abandono');
             $table->Integer('evaluacion');
 

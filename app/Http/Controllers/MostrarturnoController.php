@@ -43,7 +43,7 @@ class MostrarturnoController extends Controller
       })
       ->groupBy('tipo_tramites.Descripcion')
       ->get();
-      // dd($tramites);
+      // dd($usuario->id);
         return view('turnos/inicioturnos',compact('tramites','conteo'));
     }
     protected function mostrardatos($turno)
@@ -91,7 +91,7 @@ class MostrarturnoController extends Controller
       ->orderBy('turno_usuarios.created_at')
       ->limit(1)
       ->first();
-
+      if ($turno!=null) {
       $estado=\DB::table('turno_usuarios')
       ->where('turno_usuarios.id',$turno->id)
       ->update(['id_estado_turno'=>2]);
@@ -111,8 +111,29 @@ class MostrarturnoController extends Controller
       ->join('tipo_tramites','tipo_tramites.id_tipo_tramite','=','tramites_taquilla.idtramite')
       ->where('users.id',$usuario->id)
       ->first();
-      // dd($turnos);
-      return view('turnos.turnos',compact('tramites','turnos'));
+
+      $conteo=\DB::table('turno_usuarios')
+      ->select(\DB::raw('count(*) as conteo'),'tipo_tramites.Descripcion')
+      ->join('tipo_tramites','tipo_tramites.id_tipo_tramite','=','turno_usuarios.id_tipotramite')
+      ->whereIn('turno_usuarios.id_tipotramite', function($query){
+          $usuario=Auth()->user();
+          $tramites=\DB::table('asignacion')
+          ->select('asignacion.idtaquilla')
+          ->join('users','users.id','=','asignacion.iduser')
+          ->where('users.id',$usuario->id)
+          ->first();
+          $query->select('tramites_taquilla.idtramite')
+          ->from('taquilla')
+          ->join('tramites_taquilla','tramites_taquilla.idtaquilla','=','taquilla.num_taquilla')
+          ->where('tramites_taquilla.idtaquilla','=',$tramites->idtaquilla);
+      })
+      ->groupBy('tipo_tramites.Descripcion')
+      ->get();
+    }else {
+      return redirect('turnos')->with('msj', 'No se encuentran mas turnos disponibles');
+    }
+      // dd($turno);
+      return view('turnos.turnos',compact('tramites','turnos','conteo'));
     }
     protected function cambioestado($turno,$taquilla)
     {
@@ -136,11 +157,22 @@ class MostrarturnoController extends Controller
       ->where('users.id',$usuario->id)
       ->first();
       $conteo=\DB::table('turno_usuarios')
-      ->where('turno_usuarios.id_tipotramite',$tramites->idtramite)
-      ->where('turno_usuarios.id_estado_turno',1)
-      // ->orwhere('turno_usuarios.id_estado_turno',2)
-      ->select (\DB::raw('count(*) as conteo'))
-      ->first();
+      ->select(\DB::raw('count(*) as conteo'),'tipo_tramites.Descripcion')
+      ->join('tipo_tramites','tipo_tramites.id_tipo_tramite','=','turno_usuarios.id_tipotramite')
+      ->whereIn('turno_usuarios.id_tipotramite', function($query){
+          $usuario=Auth()->user();
+          $tramites=\DB::table('asignacion')
+          ->select('asignacion.idtaquilla')
+          ->join('users','users.id','=','asignacion.iduser')
+          ->where('users.id',$usuario->id)
+          ->first();
+          $query->select('tramites_taquilla.idtramite')
+          ->from('taquilla')
+          ->join('tramites_taquilla','tramites_taquilla.idtaquilla','=','taquilla.num_taquilla')
+          ->where('tramites_taquilla.idtaquilla','=',$tramites->idtaquilla);
+      })
+      ->groupBy('tipo_tramites.Descripcion')
+      ->get();
       //buscamos el turno mas pronto a atender
       $minimos=\DB::table('turno_usuarios')
       ->select (\DB::raw('min(created_at) as minimo'))

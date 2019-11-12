@@ -75,7 +75,7 @@
               </a>
               <div class="dropdown-menu dropdown-menu-Left" aria-labelledby="navbarDropdown">
                 <a  class="dropdown-item" href="{{ route('password') }}">{{ __('Contraseña') }}</a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
+                <a class="dropdown-item" href="{{ route('logout2') }}"
                  onclick="event.preventDefault();
                                document.getElementById('logout-form').submit();">
                   {{ __('Cerrar sesion') }}

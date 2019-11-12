@@ -14,7 +14,7 @@ class CreateImagenesTable extends Migration
     public function up()
     {
         Schema::create('imagenes', function (Blueprint $table) {
-            // $table->engine = "InnoDB";
+            $table->engine = "InnoDB";
             $table->Increments('id');
             $table->timestamps();
 

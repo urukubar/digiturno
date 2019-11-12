@@ -71,6 +71,12 @@ class TaquillaController extends Controller
     }
     public function destroy($id)
     {
+      \DB::table('asignacion')
+      ->where('idtaquilla', $id)
+      ->delete();
+      \DB::table('tramites_taquilla')
+      ->where('idtaquilla', $id)
+      ->delete();
       $servicio=\DB::table('taquilla')
       ->where('taquilla.num_taquilla',$id)
       ->delete();

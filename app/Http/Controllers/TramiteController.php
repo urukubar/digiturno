@@ -49,6 +49,9 @@ class TramiteController extends Controller
 
     public function destroy($id)
     {
+      \DB::table('tramites_taquilla')
+      ->where('tramites_taquilla.idtramite',$id)
+      ->delete();
       $servicio=\DB::table('tipo_tramites')
       ->where('tipo_tramites.id_tipo_tramite',$id)
       ->delete();
@@ -61,7 +64,8 @@ class TramiteController extends Controller
       \DB::table('tipo_tramites')
       ->insert([
         'Descripcion'=>$request['Descripcion'],
-        'Letra'=>$request['Letra']
+        'Letra'=>$request['Letra'],
+        'Num_turno'=>0
       ]);
         return redirect('tramites/tramites');
 

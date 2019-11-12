@@ -36,9 +36,22 @@ class HomeController extends Controller
     {
 
       $datos=request()->except(['_token','_method']);
-      \DB::table('asignacion')->where('iduser',$id)->update(['iduser'=>null]);
-      \DB::table('asignacion')->where('idtaquilla',$request->taquilla)->update(['iduser'=>$id]);
+      $taquilla=\DB::table('asignacion')->where('idtaquilla',$request->taquilla)->first();
+      if ($taquilla==null) {
+        \DB::table('asignacion')->where('iduser',$id)->update(['iduser'=>null]);
+          \DB::table('asignacion')->insert([
+            'idtaquilla'=>$request['taquilla'],
+            'iduser'=>$id
+          ]);
+          // \DB::table('asignacion')->where('iduser',$id)->update(['iduser'=>null]);
+      }else {
+        \DB::table('asignacion')->where('iduser',$id)->update(['iduser'=>null]);
+        \DB::table('asignacion')->where('idtaquilla',$request->taquilla)->update(['iduser'=>$id]);
+      }
+      \DB::table('users')->where('id', $id )->update(['conectado'=>1]);
       return redirect('/turnos');
+      // dd($request);
+
     }
 
 }
