@@ -3,7 +3,7 @@
 @section('content')
     <div>
       <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-10">
           <div class="card">
             <table class="table table-hover">
               <thead>

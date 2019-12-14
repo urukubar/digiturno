@@ -3,7 +3,7 @@
 @section('content')
 <div class="">
   <div class="row justify-content-center">
-    <div class="col-md-8">
+    <div class="col-md-10">
       <a href="{{ route('register') }}" class="btn btn-primary">Agregar Usuario</a>
       <br/>
       <br>
@@ -14,6 +14,7 @@
       <th scope="col">#</th>
       <th scope="col">Nombre</th>
       <th scope="col">E-mail</th>
+      <th scope="col">Conexion</th>
       <th scope="col">Acciones</th>
 
     </tr>
@@ -24,13 +25,21 @@
       <th scope="row">{{$usuario->id}}</th>
       <td>{{$usuario->name}}</td>
       <td>{{$usuario->email}}</td>
-      {{-- <td>{{$usuario->idtramite}}</td> --}}
       <td>
-        <a href="{{url('/usuarios/'.$usuario->id.'/edit')}}">Editar |</a>
+        @if ($usuario->conectado==1)
+          ON
+          @else
+            OFF
+        @endif
+      </td>
+      <td>
+        <a href="{{url('/usuarios/'.$usuario->id.'/edit')}}" >Editar</a>
+        <br>
         <form class="" action="{{ url('/usuarios/'.$usuario->id)}}" method="post">
           {{csrf_field()}}
           {{method_field('DELETE')}}
           <button type="submit" onclick="return confirm('¿desea borrar este usuario?')">Eliminar</button>
+
         </form>
 
       </td>

@@ -4,7 +4,7 @@
 
   <div class="">
     <div class="row justify-content-center">
-      <div class="col-md-8">
+      <div class="col-md-10">
         <a href="{{route('createtaquilla')}}" class="btn btn-primary">Agregar Taquilla</a>
         <br/>
         <br>

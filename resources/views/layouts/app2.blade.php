@@ -22,7 +22,7 @@
   <body>
       <nav class="navbar navbar-expand-md navbar-light bg-light">
         {{-- {{'DIGITURNO'}} --}}
-      <img src="http://www.ccv.org.co/site/fileadmin/user_upload/img/ccv.png" class="img-responsive">
+      {{-- <img src="http://www.ccv.org.co/site/fileadmin/user_upload/img/ccv.png" class="img-responsive"> --}}
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>

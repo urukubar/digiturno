@@ -68,3 +68,6 @@ Route::get('/password',function(){
 })->name('password');
 
 Route::patch('newpass/{id}','UsuariosController@updatepass')->name('newpass');
+
+Route::get('/cargar/datos', 'LogoController@cargarDatos');
+Route::post('/cargar/datos', 'TurnoController@registro');
